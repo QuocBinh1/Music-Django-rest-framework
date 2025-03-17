@@ -1,12 +1,8 @@
 from django.urls import path
-from .views import search_youtube
+from .views import SongListView
+
+
 
 urlpatterns = [
-    path('search/', search_youtube, name='search-youtube'),
-]
-from django.urls import path
-from .views import search_youtube
-
-urlpatterns = [
-    path('search/', search_youtube, name='search-youtube'),
+    path("songs/", SongListView.as_view(), name="song_list"),
 ]

@@ -20,19 +20,11 @@ from django.urls import path , include
 from rest_framework.routers import DefaultRouter
 
 
-from home.views import ItemViewset
-from user.views import UserViewset 
 
 router = DefaultRouter()
-router.register(r'items', ItemViewset, basename='items')
-router.register(r'users', UserViewset, basename='users')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
-    path('api/', include('music.urls')),
 
-    # path('api/items/' , include('home.urls')),
-    # path('api/users/' , include('user.urls')),
-    # path('',home_view , name = 'home')
+   
 ]
