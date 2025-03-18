@@ -1,4 +1,4 @@
 3 chức năng chính : 
 + Nghe nhạc
-+ tải nhạc
-+ Tìm kiếm
++ bình luận
++ danh sách nhạc yêu thích 
