@@ -1,3 +1,4 @@
+#music/serializer.py
 from rest_framework import serializers
 from .models import Song
 
@@ -6,8 +7,9 @@ class SongSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Song
-        fields = ["id", "youtube_url", "title", "artist", "thumbnail", "mp3_url"]  # Thêm mp3_url
-
+        fields = '__all__'  # Thêm mp3_url
+    def get_youtube_embed_url(self, obj):
+        return f"https://www.youtube.com/embed/{obj.youtube_url.split('=')[-1]}" if obj.youtube_url else None
     # def get_youtube_embed_url(self, obj):
     #     if "watch?v=" in obj.youtube_url:
     #         return obj.youtube_url.replace("watch?v=", "embed/")

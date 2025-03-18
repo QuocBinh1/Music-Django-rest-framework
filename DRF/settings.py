@@ -37,11 +37,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
- 
+    #'web-music',
     'music',
-    # Django Rest Framework
+    'corsheaders',
     'rest_framework',
 ]
+CORS_ALLOW_ALL_ORIGINS = True  # Cho phép tất cả các domain truy cập API (tạm thời)
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # Địa chỉ frontend React
+]
+
 YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY", "AIzaSyD_uhl8JT_N3qKC8Xi1VfPBYl8wOMEei3M")
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -78,22 +83,22 @@ WSGI_APPLICATION = 'DRF.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'fruitDB', # ten db
-#         'USER': 'postgres',
-#         'PASSWORD': 'Anhbinhpzo11',
-#         'HOST': 'localhost',   # Thay đổi nếu cần thiết
-#         'PORT': '5432',        # Thay đổi nếu cần thiết
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'music', # ten db
+        'USER': 'postgres',
+        'PASSWORD': 'Anhbinhpzo11',
+        'HOST': 'localhost',   # Thay đổi nếu cần thiết
+        'PORT': '5432',        # Thay đổi nếu cần thiết
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
