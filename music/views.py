@@ -9,7 +9,37 @@ from rest_framework.decorators import api_view
 from django.http import JsonResponse
 
 from .utils import search_youtube, download_mp3
+import logging
 
+
+logger = logging.getLogger(__name__)
+
+YOUTUBE_API_KEY = "AIzaSyD_uhl8JT_N3qKC8Xi1VfPBYl8wOMEei3M"
+
+
+def get_youtube_songs(request):
+    query = request.GET.get("q", "top music")
+    songs = fetch_youtube_songs(query)
+    return JsonResponse(songs, safe=False)  # Trả về JSON ở đây
+
+def fetch_youtube_songs(query="top music"):
+    url = f"https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q={query}&key={YOUTUBE_API_KEY}"
+    response = requests.get(url)
+    data = response.json()
+
+    songs = []
+    for item in data.get("items", []):
+        video_id = item["id"]["videoId"]
+        snippet = item["snippet"]
+        songs.append({
+            "title": snippet["title"],
+            "artist": snippet["channelTitle"],
+            "thumbnail": snippet["thumbnails"]["high"]["url"],
+            "video_id": video_id,
+            "youtube_url": f"https://www.youtube.com/watch?v={video_id}"
+        })
+    
+    return songs  # Trả về danh sách bài hát, không trả về JsonResponse
 
 @api_view(['POST'])
 def save_song(request):
@@ -32,8 +62,10 @@ def save_song(request):
 
     return Response(SongSerializer(song).data)
 class SongListView(generics.ListAPIView):
-    queryset = Song.objects.all()
-    serializer_class = SongSerializer
+    # queryset = Song.objects.all()
+    # serializer_class = SongSerializer
+    def get(self, request):
+        return get_youtube_songs(request)
 
 class SearchSongView(APIView):
     def get(self, request):
